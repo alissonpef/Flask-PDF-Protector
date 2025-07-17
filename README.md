@@ -4,7 +4,6 @@ Uma aplicação web completa construída com Flask para adicionar marcas d'água
 
 ## Demonstração Visual
 
-![Screenshot da Aplicação](placeholder.png)
 
 ## ✨ Funcionalidades Principais
 
