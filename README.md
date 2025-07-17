@@ -5,7 +5,7 @@ Uma aplicação web completa construída com Flask para adicionar marcas d'água
 ## Demonstração Visual
 
 <p align="center">
-  <img src="app-interface.png" alt="Interface da Aplicação" width="600"/>
+  <img src="screenshot-app.png" alt="Interface da Aplicação" width="600"/>
 </p>
 
 ## ✨ Funcionalidades Principais
