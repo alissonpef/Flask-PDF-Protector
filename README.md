@@ -158,7 +158,7 @@ Este projeto tem uma base sólida e pode ser expandido com novas funcionalidades
 
 Adoraria trocar ideias sobre desenvolvimento backend, Python, Flask ou outras tecnologias. Fique à vontade para entrar em contato ou me adicionar nas redes.
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alisson-pereira-ferreira-450223b/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alisson-pereira-ferreira-45022623b/)
 [![Gmail](https://img.shields.io/badge/Gmail-%23EA4335.svg?style=for-the-badge&logo=gmail&logoColor=white)](mailto:alissonpef@gmail.com)
 
 ---

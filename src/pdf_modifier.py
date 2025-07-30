@@ -6,18 +6,19 @@ from reportlab.lib.utils import ImageReader
 from io import BytesIO
 import os
 
+
 def modify_pdf(filename, upload_folder, watermark_type, **kwargs):
     packet = BytesIO()
     can = canvas.Canvas(packet, pagesize=A4)
     width, height = A4
 
-    opacity = kwargs.get('opacity', 15)
-    position = kwargs.get('position', 'diagonal')
+    opacity = kwargs.get("opacity", 15)
+    position = kwargs.get("position", "diagonal")
 
     can.setFillAlpha(opacity / 100.0)
 
-    if watermark_type == 'image' and 'watermark_image_path' in kwargs:
-        img_path = kwargs['watermark_image_path']
+    if watermark_type == "image" and "watermark_image_path" in kwargs:
+        img_path = kwargs["watermark_image_path"]
         try:
             img = ImageReader(img_path)
             img_width, img_height = img.getSize()
@@ -26,29 +27,45 @@ def modify_pdf(filename, upload_folder, watermark_type, **kwargs):
             display_width = 150
             display_height = display_width * aspect
 
-            if position == 'center':
+            if position == "center":
                 x_center = (width - display_width) / 2
                 y_center = (height - display_height) / 2
-                can.drawImage(img, x_center, y_center, width=display_width, height=display_height, mask='auto')
+                can.drawImage(
+                    img,
+                    x_center,
+                    y_center,
+                    width=display_width,
+                    height=display_height,
+                    mask="auto",
+                )
             else:
                 can.translate(width / 2, height / 2)
                 can.rotate(45)
                 for x in range(-int(width), int(width), int(display_width + 100)):
-                    for y in range(-int(height), int(height), int(display_height + 100)):
-                        can.drawImage(img, x, y, width=display_width, height=display_height, mask='auto')
+                    for y in range(
+                        -int(height), int(height), int(display_height + 100)
+                    ):
+                        can.drawImage(
+                            img,
+                            x,
+                            y,
+                            width=display_width,
+                            height=display_height,
+                            mask="auto",
+                        )
 
         except Exception as e:
             raise ValueError(f"Não foi possível processar a imagem: {e}")
 
-    elif watermark_type == 'text' and 'text' in kwargs:
-        text = kwargs.get('text', '')
-        font_size = kwargs.get('font_size', 12)
-        color = kwargs.get('color', '#c0c0c0')
+    elif watermark_type == "text" and "text" in kwargs:
+        text = kwargs.get("text", "")
+        font_size = kwargs.get("font_size", 12)
+        color = kwargs.get("color", "#c0c0c0")
 
         can.setFont("Helvetica", font_size)
         can.setFillColor(HexColor(color))
 
-        if position == 'diagonal':
+        if position == "diagonal":
             text_to_repeat = f"{text} " * 5
             can.translate(width / 2, height / 2)
             can.rotate(45)
@@ -56,7 +73,7 @@ def modify_pdf(filename, upload_folder, watermark_type, **kwargs):
                 for y in range(-int(height), int(height), 100):
                     can.drawString(x, y, text_to_repeat)
         else:
-            positions = {'bottom-right': (450, 50), 'center': (200, 400)}
+            positions = {"bottom-right": (450, 50), "center": (200, 400)}
             x, y = positions.get(position, (450, 50))
             can.drawString(x, y, text)
 
