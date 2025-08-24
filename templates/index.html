@@ -4,62 +4,70 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PDF Protector</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
   </head>
   <body>
-    <h1>PDF Protector v2</h1>
-    <p>Add a text or image watermark to protect your documents.</p>
+    <div class="container">
+      <h1>PDF Protector</h1>
+      <h2>Add a text or image watermark to protect your documents.</h2>
 
-    <form method="POST" enctype="multipart/form-data" novalidate>
-      {{ form.hidden_tag() }}
+      <form method="POST" enctype="multipart/form-data" novalidate>
+        {{ form.hidden_tag() }}
 
-      <div>
-        {{ form.watermark_type.label }}<br />
-        {{ form.watermark_type() }}
-      </div>
+        <div class="form-group">
+          {{ form.watermark_type.label }}
+          <div class="radio-group">
+            {% for subfield in form.watermark_type %}
+            <label class="radio-label">
+              {{ subfield }} {{ subfield.label.text }}
+            </label>
+            {% endfor %}
+          </div>
+        </div>
 
-      <hr />
+        <div id="text-fields">
+          <div class="form-group">
+            {{ form.watermark_text.label }} {{
+            form.watermark_text(class="form-input") }}
+          </div>
+          <div class="form-group">
+            {{ form.font_size.label }} {{ form.font_size(class="form-input") }}
+          </div>
+        </div>
 
-      <div>
-        {{ form.watermark_text.label }}<br />
-        {{ form.watermark_text(size=30) }}
-      </div>
+        <div id="image-fields" style="display: none">
+          <div class="form-group">
+            {{ form.watermark_image.label }} {{
+            form.watermark_image(class="form-input") }}
+          </div>
+        </div>
 
-      <div>
-        {{ form.font_size.label }}<br />
-        {{ form.font_size() }}
-      </div>
+        <div class="form-row">
+          <div class="form-group">
+            {{ form.position.label }} {{ form.position(class="form-select") }}
+          </div>
+          <div class="form-group">
+            {{ form.opacity.label }} {{ form.opacity(class="form-input") }}
+          </div>
+        </div>
 
-      <div>
-        {{ form.watermark_image.label }}<br />
-        {{ form.watermark_image() }}
-      </div>
+        <div class="form-group">
+          {{ form.pdf_file.label }} {{ form.pdf_file(class="form-input") }}
+        </div>
 
-      <hr />
+        {{ form.submit(class="submit-btn") }}
+      </form>
 
-      <div>
-        {{ form.opacity.label }}<br />
-        {{ form.opacity() }}
-      </div>
-
-      <div>
-        {{ form.position.label }}<br />
-        {{ form.position() }}
-      </div>
-
-      <div>
-        {{ form.pdf_file.label }}<br />
-        {{ form.pdf_file() }}
-      </div>
-
-      <div>{{ form.submit() }}</div>
-    </form>
-
-    {% with messages = get_flashed_messages() %} {% if messages %}
-    <ul class="flashes">
-      {% for message in messages %}
-      <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %} {% endwith %}
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <ul class="flashes">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endwith %}
+    </div>
   </body>
 </html>
