@@ -1,21 +1,25 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Protetor de PDF</title>
+    <title>PDF Protector</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='styles.css') }}"
     />
+    <style>
+      .error-message {
+        color: #dc3545;
+        font-size: 0.9rem;
+        margin-top: 5px;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
-      <h1>Protetor de PDF</h1>
-      <h2>
-        Adicione uma marca d'água de texto ou imagem para proteger seus
-        documentos.
-      </h2>
+      <h1>PDF Protector</h1>
+      <h2>Add a text or image watermark to protect your documents.</h2>
 
       <form method="POST" enctype="multipart/form-data" novalidate>
         {{ form.hidden_tag() }}
@@ -33,50 +37,49 @@
 
         <div id="text-fields">
           <div class="form-group">
-            {{ form.cpf.label }}<br />
-            {{ form.cpf(class="form-input") }}
+            {{ form.watermark_text.label }} {{
+            form.watermark_text(class="form-input") }}
           </div>
-          <div style="display: flex; gap: 20px; align-items: flex-end">
-            <div style="flex: 1">
-              {{ form.font_size.label }}<br />
-              {{ form.font_size(class="form-input") }}
+          <div class="form-row">
+            <div class="form-group">
+              {{ form.font_size.label }} {{ form.font_size(class="form-input")
+              }}
             </div>
-            <div style="flex-basis: 50px">
-              {{ form.color.label }}<br />
-              {{ form.color() }}
+            <div class="form-group">
+              {{ form.color.label }} {{ form.color(class="form-input",
+              type="color") }}
             </div>
           </div>
         </div>
 
         <div id="image-fields" style="display: none">
           <div class="form-group">
-            {{ form.watermark_image.label }}<br />
-            {{ form.watermark_image(class="form-input") }}
+            {{ form.watermark_image.label }} {{
+            form.watermark_image(class="form-input") }}
           </div>
         </div>
 
-        <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee" />
-
-        <div style="display: flex; gap: 20px">
-          <div style="flex: 2">
-            {{ form.position.label }}<br />
-            {{ form.position(class="form-input") }}
+        <div class="form-row">
+          <div class="form-group">
+            {{ form.position.label }} {{ form.position(class="form-select") }}
           </div>
-          <div style="flex: 1">
-            {{ form.opacity.label }}<br />
-            {{ form.opacity(class="form-input") }}
+          <div class="form-group">
+            {{ form.opacity.label }} {{ form.opacity(class="form-input") }} {%
+            if form.opacity.errors %}
+            <div class="error-message">
+              {% for error in form.opacity.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
           </div>
         </div>
 
         <div class="form-group">
-          {{ form.file.label }}<br />
-          {{ form.file(class="form-input") }} {% for error in form.file.errors
-          %}
-          <span class="error-message">{{ error }}</span>
-          {% endfor %}
+          {{ form.pdf_file.label }} {{ form.pdf_file(class="form-input") }}
         </div>
 
-        <div>{{ form.submit() }}</div>
+        {{ form.submit(class="submit-btn") }}
       </form>
 
       {% with messages = get_flashed_messages() %} {% if messages %}
@@ -85,12 +88,7 @@
         <li>{{ message }}</li>
         {% endfor %}
       </ul>
-      {% endif %} {% endwith %} {% if download_url %}
-      <div class="download-section">
-        <h3>Seu arquivo está pronto!</h3>
-        <a href="{{ download_url }}"> Baixar PDF Protegido </a>
-      </div>
-      {% endif %}
+      {% endif %} {% endwith %}
     </div>
 
     <script>
@@ -105,6 +103,7 @@
           const selectedType = document.querySelector(
             'input[name="watermark_type"]:checked'
           ).value;
+
           if (selectedType === "text") {
             textFields.style.display = "block";
             imageFields.style.display = "none";
