@@ -2,10 +2,14 @@
   "version": 2,
   "builds": [
     {
+      "src": "static/**",
+      "use": "@vercel/static"
+    },
+    {
       "src": "api/index.py",
       "use": "@vercel/python",
       "config": {
-        "includeFiles": ["templates/**", "static/**"]
+        "includeFiles": ["templates/**"]
       }
     }
   ],
