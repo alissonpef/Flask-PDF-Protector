@@ -1,10 +1,10 @@
-from PyPDF2 import PdfWriter, PdfReader
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.colors import HexColor, Color, toColor
-from reportlab.lib.utils import ImageReader
 from io import BytesIO
 from PIL import Image
+from PyPDF2 import PdfReader, PdfWriter
+from reportlab.lib.colors import Color, toColor
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen import canvas
 
 
 def add_watermark(pdf_stream, watermark_type, **kwargs):

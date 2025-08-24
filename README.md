@@ -1,165 +1,125 @@
-# Protetor de PDF 🛡️
+# AquaMark 💧
 
-Uma aplicação web completa construída com Flask para adicionar marcas d'água personalizadas (texto ou imagem) em arquivos PDF, protegendo seus documentos contra distribuição não autorizada.
+A robust Flask web application to add custom watermarks (text or image) to your PDF files, protecting your documents simply and efficiently.
 
-## Demonstração Visual
+## ✨ Key Features
 
-<p align="center">
-  <img src="screenshot-app.png" alt="Interface da Aplicação" width="600"/>
-</p>
+- **Dual Watermark Types:** Choose between applying a custom text or an image (like a logo) as a watermark.
+- **Full Style Control:** Customize the opacity, color, and font size (for text) to create the perfect protection.
+- **Secure In-Memory Processing:** Uploads and handles files without temporarily saving them to the server's disk.
+- **Interactive UI:** The form dynamically adapts to your choice of watermark type (text or image).
+- **Direct Download:** Download the new, protected PDF file directly from the application after processing.
 
-## ✨ Funcionalidades Principais
-
--   **Dois Tipos de Marca d'água:** Escolha entre aplicar um texto personalizado ou uma imagem (como um logo) como marca d'água.
--   **Estilos de Aplicação:** Aplique a marca d'água em um padrão diagonal repetido, no centro da página ou em um canto específico.
--   **Controle Total de Estilo:** Personalize a opacidade, cor e tamanho da fonte (para texto) para criar a proteção ideal.
--   **Upload Seguro de Arquivos:** Interface para upload de PDFs e imagens com validação de tipo de arquivo.
--   **Interface Interativa:** O formulário se adapta dinamicamente à sua escolha de marca d'água (texto ou imagem).
--   **Download Direto:** Baixe o novo arquivo PDF protegido diretamente da aplicação após o processamento.
-
-## 🛠️ Tecnologias Utilizadas
-
-Este projeto foi construído com uma stack moderna e robusta, pronta para produção.
+## 🛠️ Tech Stack
 
 #### Backend
+
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 
 #### Frontend
+
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-#### DevOps & Infraestrutura
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+#### Code Quality
 
-## ⚙️ Como Funciona (Fluxo Técnico)
+![Flake8](https://img.shields.io/badge/Flake8-4B8BBE?style=for-the-badge&logo=python&logoColor=white)
 
-1.  **Interface do Usuário:** O usuário acessa a página principal, que exibe um formulário dinâmico construído com **Flask-WTF** para validação de dados e proteção CSRF. O JavaScript adapta a interface com base na escolha do tipo de marca d'água.
-2.  **Envio de Dados:** Ao submeter, o arquivo PDF, as configurações e a imagem da marca d'água (se aplicável) são enviados via `POST` para o servidor **Flask**.
-3.  **Processamento em Memória:** A função `modify_pdf` é chamada. Em vez de criar arquivos temporários, ela usa **ReportLab** para gerar um novo PDF de uma única página (a marca d'água) diretamente na memória, utilizando `io.BytesIO`.
-    -   Se for **texto**, ele desenha o texto com a formatação especificada.
-    -   Se for **imagem**, ele a carrega e desenha na "tela" do PDF.
-4.  **Mesclagem de PDFs:** A biblioteca **PyPDF2** é usada para ler o PDF original e o PDF da marca d'água em memória.
-5.  **Aplicação da Marca d'água:** O código itera sobre cada página do PDF original e mescla (merge) a página da marca d'água sobre ela.
-6.  **Salvamento e Resposta:** O novo PDF, agora protegido, é salvo na pasta `uploads` com um novo nome. A rota Flask renderiza a página novamente, exibindo uma mensagem de sucesso e um link para download do arquivo final.
+## ⚙️ How It Works (Technical Flow)
 
-## 🚀 Como Executar o Projeto
+1.  **User Interface:** The user accesses the main page, which displays a dynamic form built with **Flask-WTF** for data validation and CSRF protection. JavaScript adapts the UI based on the chosen watermark type.
+2.  **Data Submission:** The PDF file and its settings are sent via a `POST` request to the Flask server.
+3.  **In-Memory Processing:** The `add_watermark` function uses **ReportLab** to generate a watermark PDF and **PyPDF2** to merge it with the original PDF. The entire process occurs in memory using `io.BytesIO`, ensuring performance and security by not writing files to disk.
+4.  **Response & Download:** The application returns the modified PDF file directly in the HTTP response with a `Content-Disposition` header, triggering the download in the user's browser without saving the final file on the server.
 
-Existem duas maneiras de rodar esta aplicação: localmente para desenvolvimento ou de forma containerizada com Docker para um ambiente de produção.
+## 🚀 Getting Started
 
-### 1. Execução com Docker (Recomendado)
+### Local Setup (Recommended for Development)
 
-Esta é a maneira mais simples e confiável de executar o projeto, pois encapsula todas as dependências.
+**Prerequisites:**
 
-**Pré-requisitos:**
-- Docker
-- Docker Compose
-
-**Passos:**
-1.  **Clone o repositório:**
-    ```bash
-    git clone https://github.com/alissonpef/Flask-PDF-Protector.git
-    cd Flask-PDF-Protector
-    ```
-
-2.  **Configure as variáveis de ambiente:**
-    - Crie um arquivo chamado `.env` na raiz do projeto.
-    - Adicione a seguinte linha a ele (use uma chave longa e aleatória):
-      ```
-      SECRET_KEY='sua-chave-secreta-muito-forte-e-aleatoria'
-      ```
-
-3.  **Construa a imagem e inicie o contêiner:**
-    ```bash
-    docker-compose up --build
-    ```
-
-4.  Acesse **http://127.0.0.1:5000** no seu navegador.
-
-### 2. Execução Local
-
-**Pré-requisitos:**
 - Python 3.8+
-- pip
 
-**Passos:**
+**Steps:**
 
-1.  **Clone o repositório** (se ainda não o fez).
+1.  **Clone the repository:**
+
     ```bash
-    git clone https://github.com/alissonpef/Flask-PDF-Protector.git
-    cd Flask-PDF-Protector
+    git clone [https://github.com/alissonpef/AquaMark.git](https://github.com/alissonpef/AquaMark.git)
+    cd AquaMark
     ```
 
-2.  **Crie e ative um ambiente virtual:**
+2.  **Create and activate a virtual environment:**
+
     ```bash
     python -m venv env
     ```
-    *   **No Windows (usando Git Bash):**
-        ```bash
-        source env/Scripts/activate
-        ```
-    *   **No macOS ou Linux:**
-        ```bash
-        source env/bin/activate
-        ```
 
-3.  **Instale as dependências:**
+    - On Windows (using Git Bash): `source env/Scripts/activate`
+    - On macOS or Linux: `source env/bin/activate`
+
+3.  **Install the dependencies:**
+
     ```bash
     pip install -r requirements.txt
     ```
 
-4.  **Configure as variáveis de ambiente** (crie o arquivo `.env` como descrito na seção Docker).
+4.  **Set up environment variables:**
 
-5.  **Execute a aplicação:**
+    - Make a copy of the `.env.example` file and rename it to `.env`.
+    - Open the `.env` file and add a long, random `SECRET_KEY`.
+      ```
+      SECRET_KEY='your-super-secret-and-long-key'
+      ```
+    - The `.flaskenv` file is already configured for the development environment.
+
+5.  **Run the application:**
+
     ```bash
-    python src/app.py
+    flask run
     ```
 
-6.  Acesse **http://127.0.0.1:5000** no seu navegador.
+6.  Access the application at **http://127.0.0.1:5000** in your browser.
 
-## 📁 Estrutura do Projeto
-
-A estrutura do projeto foi organizada para separar as responsabilidades e facilitar a manutenção, seguindo padrões de aplicações Flask.
+## 📁 Project Structure
 
 ```
 /
-├── .env                  # Variáveis de ambiente (SECRET_KEY)
-├── .gitignore            # Arquivos ignorados pelo Git
-├── .dockerignore         # Arquivos ignorados pelo Docker
-├── .editorconfig         # Padrões de formatação do código
-├── Dockerfile            # Receita para construir a imagem Docker
-├── docker-compose.yml    # Orquestração do contêiner com Docker Compose
-├── README.md             # Esta documentação
-├── requirements.txt      # Dependências do Python
-└── src/                  # Pasta principal com o código-fonte da aplicação
-    ├── app.py            # Lógica principal do Flask (rotas)
-    ├── forms.py          # Definição dos formulários com Flask-WTF
-    ├── pdf_modifier.py   # Função que manipula o PDF
-    ├── static/           # Arquivos CSS e JavaScript
-    │   └── styles.css
-    ├── templates/        # Arquivos HTML (Jinja2)
-    │   └── index.html
-    └── uploads/          # Pasta para armazenar os PDFs (criada automaticamente)
+├── .env.example        # Environment variables template
+├── .flaskenv           # Variables for the Flask CLI
+├── .flake8             # Flake8 linter configuration
+├── .gitignore          # Files ignored by Git
+├── requirements.txt    # Python dependencies
+├── api/                # Application source code
+│   ├── __init__.py     # Makes the directory a Python package
+│   ├── index.py        # Main logic and Flask routes
+│   ├── forms.py        # Flask-WTF forms definitions
+│   └── pdf_utils.py    # PDF manipulation logic
+├── static/             # Static files (CSS, JS)
+└── templates/          # HTML templates (Jinja2)
 ```
 
-## 🔮 Melhorias Futuras
+## lint Code Quality
 
-Este projeto tem uma base sólida e pode ser expandido com novas funcionalidades:
+This project uses **Flake8** to ensure a clean, readable, and consistent codebase, following Python community best practices. The configuration can be found in the `.flake8` file.
 
--   [ ] **Processamento Assíncrono:** Usar uma fila de tarefas (Celery, RQ) para processar PDFs grandes em segundo plano sem travar a interface.
--   [ ] **Contas de Usuário:** Sistema de login para que os usuários possam ver um histórico de seus arquivos processados.
--   [ ] **Processamento em Lote:** Permitir o upload de múltiplos PDFs para aplicar a mesma marca d'água em todos.
--   [ ] **Pré-visualização da Marca d'água:** Mostrar uma prévia de como a marca d'água ficará no PDF antes do processamento final.
+To check the code, run:
+
+```bash
+flake8 api
+```
 
 ---
 
-## 📫 Vamos Conectar!
+## 📫 Let's Connect!
 
-Adoraria trocar ideias sobre desenvolvimento backend, Python, Flask ou outras tecnologias. Fique à vontade para entrar em contato ou me adicionar nas redes.
+I'd love to chat about backend development, Python, Flask, or other technologies. Feel free to reach out or connect with me on social media.
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alisson-pereira-ferreira-45022623b/)
 [![Gmail](https://img.shields.io/badge/Gmail-%23EA4335.svg?style=for-the-badge&logo=gmail&logoColor=white)](mailto:alissonpef@gmail.com)
 
 ---
-Feito com ❤️ por **Alisson Pereira**.
+
+Made with ❤️ by **Alisson Pereira**.

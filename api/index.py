@@ -1,7 +1,8 @@
 import os
-from flask import Flask, render_template, request, send_file, flash
+
+from flask import Flask, flash, render_template, send_file
 from werkzeug.utils import secure_filename
-from io import BytesIO
+
 from .forms import UploadForm
 from .pdf_utils import add_watermark
 
