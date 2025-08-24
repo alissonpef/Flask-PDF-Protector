@@ -14,7 +14,6 @@ app = Flask(__name__, template_folder="../templates", static_folder="../static")
 app.config["SECRET_KEY"] = os.getenv(
     "SECRET_KEY", "a-default-secret-key-for-development"
 )
-
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
 
 
@@ -33,6 +32,7 @@ def home():
         if watermark_type == "text":
             watermark_params["text"] = form.watermark_text.data
             watermark_params["font_size"] = form.font_size.data
+            watermark_params["color"] = form.color.data
 
         elif watermark_type == "image":
             image_file = form.watermark_image.data
@@ -41,9 +41,12 @@ def home():
                 return render_template("index.html", form=form)
             watermark_params["image_stream"] = image_file.stream
 
+        pdf_bytes_content = pdf_file.read()
+        pdf_stream_for_processing = BytesIO(pdf_bytes_content)
+
         try:
             output_pdf_stream = add_watermark(
-                pdf_file.stream, watermark_type, **watermark_params
+                pdf_stream_for_processing, watermark_type, **watermark_params
             )
 
             original_filename = secure_filename(pdf_file.filename)
