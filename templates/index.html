@@ -69,5 +69,35 @@
       </ul>
       {% endif %} {% endwith %}
     </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const watermarkTypeRadios = document.querySelectorAll(
+          'input[name="watermark_type"]'
+        );
+        const textFields = document.getElementById("text-fields");
+        const imageFields = document.getElementById("image-fields");
+
+        function toggleWatermarkFields() {
+          const selectedType = document.querySelector(
+            'input[name="watermark_type"]:checked'
+          ).value;
+
+          if (selectedType === "text") {
+            textFields.style.display = "block";
+            imageFields.style.display = "none";
+          } else {
+            textFields.style.display = "none";
+            imageFields.style.display = "block";
+          }
+        }
+
+        watermarkTypeRadios.forEach((radio) => {
+          radio.addEventListener("change", toggleWatermarkFields);
+        });
+
+        toggleWatermarkFields();
+      });
+    </script>
   </body>
 </html>
