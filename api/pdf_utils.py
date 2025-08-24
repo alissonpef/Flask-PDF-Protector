@@ -1,5 +1,4 @@
 from io import BytesIO
-
 from PIL import Image
 from PyPDF2 import PdfReader, PdfWriter
 from reportlab.lib.colors import Color, toColor
