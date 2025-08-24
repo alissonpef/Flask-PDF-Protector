@@ -7,6 +7,59 @@
   </head>
   <body>
     <h1>PDF Protector v2</h1>
-    <p>The application is running!</p>
+    <p>Add a text or image watermark to protect your documents.</p>
+
+    <form method="POST" enctype="multipart/form-data" novalidate>
+      {{ form.hidden_tag() }}
+
+      <div>
+        {{ form.watermark_type.label }}<br />
+        {{ form.watermark_type() }}
+      </div>
+
+      <hr />
+
+      <div>
+        {{ form.watermark_text.label }}<br />
+        {{ form.watermark_text(size=30) }}
+      </div>
+
+      <div>
+        {{ form.font_size.label }}<br />
+        {{ form.font_size() }}
+      </div>
+
+      <div>
+        {{ form.watermark_image.label }}<br />
+        {{ form.watermark_image() }}
+      </div>
+
+      <hr />
+
+      <div>
+        {{ form.opacity.label }}<br />
+        {{ form.opacity() }}
+      </div>
+
+      <div>
+        {{ form.position.label }}<br />
+        {{ form.position() }}
+      </div>
+
+      <div>
+        {{ form.pdf_file.label }}<br />
+        {{ form.pdf_file() }}
+      </div>
+
+      <div>{{ form.submit() }}</div>
+    </form>
+
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul class="flashes">
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
   </body>
 </html>
