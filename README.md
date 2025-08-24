@@ -47,8 +47,8 @@ A robust Flask web application to add custom watermarks (text or image) to your 
 1.  **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/alissonpef/AquaMark.git](https://github.com/alissonpef/AquaMark.git)
-    cd AquaMark
+    git clone https://github.com/alissonpef/Flask-PDF-Watermarker.git
+    cd Flask-PDF-Watermarker
     ```
 
 2.  **Create and activate a virtual environment:**
