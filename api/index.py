@@ -10,11 +10,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 dotenv_path = os.path.join(project_root, ".env")
 load_dotenv(dotenv_path)
 
-app = Flask(
-    __name__,
-    template_folder=os.path.join(project_root, "templates"),
-    static_folder=os.path.join(project_root, "static"),
-)
+app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv(
     "SECRET_KEY", "a-default-secret-key-for-development"
 )
