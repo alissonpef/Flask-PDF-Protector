@@ -16,6 +16,7 @@ class UploadForm(FlaskForm):
         "Watermark Text (e.g., Name, ID)",
         validators=[Optional(), Length(min=2, max=50)],
     )
+
     font_size = IntegerField(
         "Font Size", default=12, validators=[Optional(), NumberRange(min=6, max=72)]
     )
@@ -30,11 +31,12 @@ class UploadForm(FlaskForm):
         default=15,
         validators=[DataRequired(), NumberRange(min=0, max=100)],
     )
+
     position = SelectField(
         "Position/Style",
         choices=[
             ("diagonal", "Diagonal Tiling"),
-            ("center", "Center"),
+            ("bottom-right", "Bottom Right"),
         ],
         default="diagonal",
         validators=[DataRequired()],

@@ -7,7 +7,6 @@ from io import BytesIO
 
 
 def add_watermark(pdf_stream, watermark_type, **kwargs):
-
     pdf_reader = PdfReader(pdf_stream)
     pdf_writer = PdfWriter()
 
@@ -16,6 +15,7 @@ def add_watermark(pdf_stream, watermark_type, **kwargs):
     width, height = letter
 
     opacity = kwargs.get("opacity", 15) / 100.0
+    position = kwargs.get("position", "diagonal")
     can.setFillAlpha(opacity)
 
     if watermark_type == "image" and "image_stream" in kwargs:
@@ -27,13 +27,11 @@ def add_watermark(pdf_stream, watermark_type, **kwargs):
             display_width = 150
             display_height = display_width * aspect
 
-            if kwargs.get("position") == "center":
-                x_center = (width - display_width) / 2
-                y_center = (height - display_height) / 2
+            if position == "bottom-right":
                 can.drawImage(
                     watermark_image,
-                    x_center,
-                    y_center,
+                    400,
+                    50,
                     width=display_width,
                     height=display_height,
                     mask="auto",
@@ -62,8 +60,8 @@ def add_watermark(pdf_stream, watermark_type, **kwargs):
         can.setFont("Helvetica", font_size)
         can.setFillColor(HexColor("#c0c0c0"))
 
-        if kwargs.get("position") == "center":
-            can.drawCentredString(width / 2, height / 2, text)
+        if position == "bottom-right":
+            can.drawString(450, 50, text)
         else:
             text_to_repeat = f"{text} " * 5
             can.translate(width / 2, height / 2)
